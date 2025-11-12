@@ -1,81 +1,100 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect, useRef } from "react"
-import SmartSimpleBrilliant from "../components/smart-simple-brilliant"
-import YourWorkInSync from "../components/your-work-in-sync"
-import EffortlessIntegration from "../components/effortless-integration-updated"
-import NumbersThatSpeak from "../components/numbers-that-speak"
-import DocumentationSection from "../components/documentation-section"
-import TestimonialsSection from "../components/testimonials-section"
-import FAQSection from "../components/faq-section"
-import PricingSection from "../components/pricing-section"
-import CTASection from "../components/cta-section"
-import FooterSection from "../components/footer-section"
+import { useState, useEffect, useRef } from "react";
+import SmartSimpleBrilliant from "../components/smart-simple-brilliant";
+import YourWorkInSync from "../components/your-work-in-sync";
+import EffortlessIntegration from "../components/effortless-integration-updated";
+import NumbersThatSpeak from "../components/numbers-that-speak";
+import DocumentationSection from "../components/documentation-section";
+import TestimonialsSection from "../components/testimonials-section";
+import FAQSection from "../components/faq-section";
+import PricingSection from "../components/pricing-section";
+import CTASection from "../components/cta-section";
+import FooterSection from "../components/footer-section";
+import { HeroSection } from "@/components/hero-section";
 
 // Reusable Badge Component
 function Badge({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <div className="px-[14px] py-[6px] bg-white shadow-[0px_0px_0px_4px_rgba(55,50,47,0.05)] overflow-hidden rounded-[90px] flex justify-start items-center gap-[8px] border border-[rgba(2,6,23,0.08)] shadow-xs">
-      <div className="w-[14px] h-[14px] relative overflow-hidden flex items-center justify-center">{icon}</div>
+      <div className="w-[14px] h-[14px] relative overflow-hidden flex items-center justify-center">
+        {icon}
+      </div>
       <div className="text-center flex justify-center flex-col text-[#37322F] text-xs font-medium leading-3 font-sans">
         {text}
       </div>
     </div>
-  )
+  );
 }
 
 export default function LandingPage() {
-  const [activeCard, setActiveCard] = useState(0)
-  const [progress, setProgress] = useState(0)
-  const mountedRef = useRef(true)
+  const [activeCard, setActiveCard] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     const progressInterval = setInterval(() => {
-      if (!mountedRef.current) return
+      if (!mountedRef.current) return;
 
       setProgress((prev) => {
         if (prev >= 100) {
           if (mountedRef.current) {
-            setActiveCard((current) => (current + 1) % 3)
+            setActiveCard((current) => (current + 1) % 3);
           }
-          return 0
+          return 0;
         }
-        return prev + 2 // 2% every 100ms = 5 seconds total
-      })
-    }, 100)
+        return prev + 2; // 2% every 100ms = 5 seconds total
+      });
+    }, 100);
 
     return () => {
-      clearInterval(progressInterval)
-      mountedRef.current = false
-    }
-  }, [])
+      clearInterval(progressInterval);
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
-      mountedRef.current = false
-    }
-  }, [])
+      mountedRef.current = false;
+    };
+  }, []);
 
   const handleCardClick = (index: number) => {
-    if (!mountedRef.current) return
-    setActiveCard(index)
-    setProgress(0)
-  }
+    if (!mountedRef.current) return;
+    setActiveCard(index);
+    setProgress(0);
+  };
 
   const getDashboardContent = () => {
     switch (activeCard) {
       case 0:
-        return <div className="text-[#828387] text-sm">Customer Subscription Status and Details</div>
+        return (
+          <div className="text-[#828387] text-sm">
+            Customer Subscription Status and Details
+          </div>
+        );
       case 1:
-        return <div className="text-[#828387] text-sm">Analytics Dashboard - Real-time Insights</div>
+        return (
+          <div className="text-[#828387] text-sm">
+            Analytics Dashboard - Real-time Insights
+          </div>
+        );
       case 2:
-        return <div className="text-[#828387] text-sm">Data Visualization - Charts and Metrics</div>
+        return (
+          <div className="text-[#828387] text-sm">
+            Data Visualization - Charts and Metrics
+          </div>
+        );
       default:
-        return <div className="text-[#828387] text-sm">Customer Subscription Status and Details</div>
+        return (
+          <div className="text-[#828387] text-sm">
+            Customer Subscription Status and Details
+          </div>
+        );
     }
-  }
+  };
 
   return (
     <div className="w-full min-h-screen relative bg-[#F7F5F3] overflow-x-hidden flex flex-col justify-start items-center">
@@ -97,7 +116,7 @@ export default function LandingPage() {
                 <div className="flex justify-center items-center">
                   <div className="flex justify-start items-center">
                     <div className="flex flex-col justify-center text-[#2F3037] text-sm sm:text-base md:text-lg lg:text-xl font-medium leading-5 font-sans">
-                      Brillance
+                      CrisPay
                     </div>
                   </div>
                   <div className="pl-3 sm:pl-4 md:pl-5 lg:pl-5 flex justify-start items-start hidden sm:flex flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-4">
@@ -129,32 +148,8 @@ export default function LandingPage() {
             </div>
 
             {/* Hero Section */}
-            <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-[216px] pb-8 sm:pb-12 md:pb-16 flex flex-col justify-start items-center px-2 sm:px-4 md:px-8 lg:px-0 w-full sm:pl-0 sm:pr-0 pl-0 pr-0">
-              <div className="w-full max-w-[937px] lg:w-[937px] flex flex-col justify-center items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                <div className="self-stretch rounded-[3px] flex flex-col justify-center items-center gap-4 sm:gap-5 md:gap-6 lg:gap-8">
-                  <div className="w-full max-w-[748.71px] lg:w-[748.71px] text-center flex justify-center flex-col text-[#37322F] text-[24px] xs:text-[28px] sm:text-[36px] md:text-[52px] lg:text-[80px] font-normal leading-[1.1] sm:leading-[1.15] md:leading-[1.2] lg:leading-24 font-serif px-2 sm:px-4 md:px-0">
-                    Effortless custom contract
-                    <br />
-                    billing by Brillance
-                  </div>
-                  <div className="w-full max-w-[506.08px] lg:w-[506.08px] text-center flex justify-center flex-col text-[rgba(55,50,47,0.80)] sm:text-lg md:text-xl leading-[1.4] sm:leading-[1.45] md:leading-[1.5] lg:leading-7 font-sans px-2 sm:px-4 md:px-0 lg:text-lg font-medium text-sm">
-                    Streamline your billing process with seamless automation
-                    <br className="hidden sm:block" />
-                    for every custom contract, tailored by Brillance.
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full max-w-[497px] lg:w-[497px] flex flex-col justify-center items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 relative z-10 mt-6 sm:mt-8 md:mt-10 lg:mt-12">
-                <div className="backdrop-blur-[8.25px] flex justify-start items-center gap-4">
-                  <div className="h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 lg:px-12 py-2 sm:py-[6px] relative bg-[#37322F] shadow-[0px_0px_0px_2.5px_rgba(255,255,255,0.08)_inset] overflow-hidden rounded-full flex justify-center items-center">
-                    <div className="w-20 sm:w-24 md:w-28 lg:w-44 h-[41px] absolute left-0 top-[-0.5px] bg-gradient-to-b from-[rgba(255,255,255,0)] to-[rgba(0,0,0,0.10)] mix-blend-multiply"></div>
-                    <div className="flex flex-col justify-center text-white text-sm sm:text-base md:text-[15px] font-medium leading-5 font-sans">
-                      Start for free
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="pt-16 sm:pt-20 md:pt-24  pb-8 sm:pb-12 md:pb-16 flex flex-col justify-start items-center px-2 sm:px-4 md:px-8 lg:px-0 w-full sm:pl-0 sm:pr-0 pl-0 pr-0">
+              <HeroSection />
 
               <div className="absolute top-[232px] sm:top-[248px] md:top-[264px] lg:top-[320px] left-1/2 transform -translate-x-1/2 z-0 pointer-events-none">
                 <img
@@ -177,7 +172,9 @@ export default function LandingPage() {
                         {/* Product Image 1 - Plan your schedules */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 0 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 0
+                              ? "opacity-100 scale-100 blur-0"
+                              : "opacity-0 scale-95 blur-sm"
                           }`}
                         >
                           <img
@@ -190,7 +187,9 @@ export default function LandingPage() {
                         {/* Product Image 2 - Data to insights */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 1 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 1
+                              ? "opacity-100 scale-100 blur-0"
+                              : "opacity-0 scale-95 blur-sm"
                           }`}
                         >
                           <img
@@ -203,7 +202,9 @@ export default function LandingPage() {
                         {/* Product Image 3 - Data visualization */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 2 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 2
+                              ? "opacity-100 scale-100 blur-0"
+                              : "opacity-0 scale-95 blur-sm"
                           }`}
                         >
                           <img
@@ -275,19 +276,101 @@ export default function LandingPage() {
                   <div className="w-full max-w-[586px] px-4 sm:px-6 py-4 sm:py-5 shadow-[0px_2px_4px_rgba(50,45,43,0.06)] overflow-hidden rounded-lg flex flex-col justify-start items-center gap-3 sm:gap-4 shadow-none">
                     <Badge
                       icon={
-                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="1" y="3" width="4" height="6" stroke="#37322F" strokeWidth="1" fill="none" />
-                          <rect x="7" y="1" width="4" height="8" stroke="#37322F" strokeWidth="1" fill="none" />
-                          <rect x="2" y="4" width="1" height="1" fill="#37322F" />
-                          <rect x="3.5" y="4" width="1" height="1" fill="#37322F" />
-                          <rect x="2" y="5.5" width="1" height="1" fill="#37322F" />
-                          <rect x="3.5" y="5.5" width="1" height="1" fill="#37322F" />
-                          <rect x="8" y="2" width="1" height="1" fill="#37322F" />
-                          <rect x="9.5" y="2" width="1" height="1" fill="#37322F" />
-                          <rect x="8" y="3.5" width="1" height="1" fill="#37322F" />
-                          <rect x="9.5" y="3.5" width="1" height="1" fill="#37322F" />
-                          <rect x="8" y="5" width="1" height="1" fill="#37322F" />
-                          <rect x="9.5" y="5" width="1" height="1" fill="#37322F" />
+                        <svg
+                          width="12"
+                          height="10"
+                          viewBox="0 0 12 10"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            x="1"
+                            y="3"
+                            width="4"
+                            height="6"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
+                          <rect
+                            x="7"
+                            y="1"
+                            width="4"
+                            height="8"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
+                          <rect
+                            x="2"
+                            y="4"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="3.5"
+                            y="4"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="2"
+                            y="5.5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="3.5"
+                            y="5.5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="8"
+                            y="2"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="9.5"
+                            y="2"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="8"
+                            y="3.5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="9.5"
+                            y="3.5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="8"
+                            y="5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
+                          <rect
+                            x="9.5"
+                            y="5"
+                            width="1"
+                            height="1"
+                            fill="#37322F"
+                          />
                         </svg>
                       }
                       text="Social Proof"
@@ -320,13 +403,13 @@ export default function LandingPage() {
                   <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-0 border-l border-r border-[rgba(55,50,47,0.12)]">
                     {/* Logo Grid - Responsive grid */}
                     {Array.from({ length: 8 }).map((_, index) => {
-                      const isMobileFirstColumn = index % 2 === 0
-                      const isMobileLastColumn = index % 2 === 1
-                      const isDesktopFirstColumn = index % 4 === 0
-                      const isDesktopLastColumn = index % 4 === 3
-                      const isMobileBottomRow = index >= 6
-                      const isDesktopTopRow = index < 4
-                      const isDesktopBottomRow = index >= 4
+                      const isMobileFirstColumn = index % 2 === 0;
+                      const isMobileLastColumn = index % 2 === 1;
+                      const isDesktopFirstColumn = index % 4 === 0;
+                      const isDesktopLastColumn = index % 4 === 3;
+                      const isMobileBottomRow = index >= 6;
+                      const isDesktopTopRow = index < 4;
+                      const isDesktopBottomRow = index >= 4;
 
                       return (
                         <div
@@ -346,13 +429,17 @@ export default function LandingPage() {
                           `}
                         >
                           <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 relative shadow-[0px_-4px_8px_rgba(255,255,255,0.64)_inset] overflow-hidden rounded-full">
-                            <img src="/horizon-icon.svg" alt="Horizon" className="w-full h-full object-contain" />
+                            <img
+                              src="/horizon-icon.svg"
+                              alt="Horizon"
+                              className="w-full h-full object-contain"
+                            />
                           </div>
                           <div className="text-center flex justify-center flex-col text-[#37322F] text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium leading-tight md:leading-9 font-sans">
                             Acute
                           </div>
                         </div>
-                      )
+                      );
                     })}
                   </div>
 
@@ -377,11 +464,49 @@ export default function LandingPage() {
                   <div className="w-full max-w-[616px] lg:w-[616px] px-4 sm:px-6 py-4 sm:py-5 shadow-[0px_2px_4px_rgba(50,45,43,0.06)] overflow-hidden rounded-lg flex flex-col justify-start items-center gap-3 sm:gap-4 shadow-none">
                     <Badge
                       icon={
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="1" y="1" width="4" height="4" stroke="#37322F" strokeWidth="1" fill="none" />
-                          <rect x="7" y="1" width="4" height="4" stroke="#37322F" strokeWidth="1" fill="none" />
-                          <rect x="1" y="7" width="4" height="4" stroke="#37322F" strokeWidth="1" fill="none" />
-                          <rect x="7" y="7" width="4" height="4" stroke="#37322F" strokeWidth="1" fill="none" />
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            x="1"
+                            y="1"
+                            width="4"
+                            height="4"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
+                          <rect
+                            x="7"
+                            y="1"
+                            width="4"
+                            height="4"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
+                          <rect
+                            x="1"
+                            y="7"
+                            width="4"
+                            height="4"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
+                          <rect
+                            x="7"
+                            y="7"
+                            width="4"
+                            height="4"
+                            stroke="#37322F"
+                            strokeWidth="1"
+                            fill="none"
+                          />
                         </svg>
                       }
                       text="Bento grid"
@@ -419,7 +544,8 @@ export default function LandingPage() {
                           Smart. Simple. Brilliant.
                         </h3>
                         <p className="text-[#605A57] text-sm md:text-base font-normal leading-relaxed font-sans">
-                          Your data is beautifully organized so you see everything clearly without the clutter.
+                          Your data is beautifully organized so you see
+                          everything clearly without the clutter.
                         </p>
                       </div>
                       <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg flex items-center justify-center overflow-hidden">
@@ -439,7 +565,8 @@ export default function LandingPage() {
                           Your work, in sync
                         </h3>
                         <p className="text-[#605A57] text-sm md:text-base font-normal leading-relaxed font-sans">
-                          Every update flows instantly across your team and keeps collaboration effortless and fast.
+                          Every update flows instantly across your team and
+                          keeps collaboration effortless and fast.
                         </p>
                       </div>
                       <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg flex overflow-hidden text-right items-center justify-center">
@@ -459,12 +586,17 @@ export default function LandingPage() {
                           Effortless integration
                         </h3>
                         <p className="text-[#605A57] text-sm md:text-base font-normal leading-relaxed font-sans">
-                          All your favorite tools connect in one place and work together seamlessly by design.
+                          All your favorite tools connect in one place and work
+                          together seamlessly by design.
                         </p>
                       </div>
                       <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg flex overflow-hidden justify-center items-center relative bg-transparent">
                         <div className="w-full h-full flex items-center justify-center bg-transparent">
-                          <EffortlessIntegration width={400} height={250} className="max-w-full max-h-full" />
+                          <EffortlessIntegration
+                            width={400}
+                            height={250}
+                            className="max-w-full max-h-full"
+                          />
                         </div>
                         {/* Gradient mask for soft bottom edge */}
                         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#F7F5F3] to-transparent pointer-events-none"></div>
@@ -478,7 +610,8 @@ export default function LandingPage() {
                           Numbers that speak
                         </h3>
                         <p className="text-[#605A57] text-sm md:text-base font-normal leading-relaxed font-sans">
-                          Track growth with precision and turn raw data into confident decisions you can trust.
+                          Track growth with precision and turn raw data into
+                          confident decisions you can trust.
                         </p>
                       </div>
                       <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg flex overflow-hidden items-center justify-center relative">
@@ -497,7 +630,9 @@ export default function LandingPage() {
                           <div className="flex flex-col items-center gap-2 p-4">
                             <div className="w-3/4 h-full bg-green-500 rounded-full"></div>
                           </div>
-                          <div className="text-sm text-green-600">Growth Rate</div>
+                          <div className="text-sm text-green-600">
+                            Growth Rate
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -539,7 +674,7 @@ export default function LandingPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // FeatureCard component definition inline to fix import error
@@ -550,11 +685,11 @@ function FeatureCard({
   progress,
   onClick,
 }: {
-  title: string
-  description: string
-  isActive: boolean
-  progress: number
-  onClick: () => void
+  title: string;
+  description: string;
+  isActive: boolean;
+  progress: number;
+  onClick: () => void;
 }) {
   return (
     <div
@@ -581,5 +716,5 @@ function FeatureCard({
         {description}
       </div>
     </div>
-  )
+  );
 }

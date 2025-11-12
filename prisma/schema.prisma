@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallets      Wallet[]
+  sessions     Session[]
+  transactions Transaction[]
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  userId    String
+  address   String
+  chain     String // "evm", "tron", "btc"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([address, chain])
+  @@index([userId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float
+  currency  String // "BTC", "ETH", "USDT"
+  chain     String // "bitcoin", "ethereum", "tron"
+  txHash    String
+  status    String   @default("pending") // "pending", "completed", "failed"
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([txHash])
+}

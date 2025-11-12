@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: web3auth_postgres
+    environment:
+      POSTGRES_DB: web3auth
+      POSTGRES_USER: web3user
+      POSTGRES_PASSWORD: web3password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - web3auth_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U web3user -d web3auth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: web3auth_redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - web3auth_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  adminer:
+    image: adminer
+    container_name: web3auth_adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - web3auth_network
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  web3auth_network:
+    driver: bridge
