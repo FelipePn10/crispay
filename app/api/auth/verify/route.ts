@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyEvmSignature } from "@/lib/ethers";
-import { verifyTronSignature } from "@/lib/tron-utils";
+import { verifyTronSignature } from "@/lib/tron";
 import { signToken } from "@/lib/jwt";
 import { redis } from "@/lib/redis";
 import { prisma } from "@/lib/prisma";
@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Busca nonce do Redis
     const key = `nonce:${chain}:${address.toLowerCase()}`;
     const stored = await redis.get(key);
 
@@ -30,7 +29,6 @@ export async function POST(request: NextRequest) {
     const { nonce, message } = JSON.parse(stored);
     await redis.del(key);
 
-    // Verifica assinatura
     let verified = false;
     let normalizedAddress = address;
 
@@ -47,22 +45,16 @@ export async function POST(request: NextRequest) {
       verified = await verifyTronSignature(message, signature, address);
 
       if (verified) {
-        console.log(` Assinatura TRON verificada para: ${address}`);
+        console.log(`TRON signature verified for: ${address}`);
       } else {
-        console.log(`❌ Falha na verificação TRON para: ${address}`);
+        console.log(`TRON signature verification failed for: ${address}`);
       }
     }
 
     if (!verified) {
-      return NextResponse.json(
-        {
-          error: "Invalid signature",
-        },
-        { status: 403 },
-      );
+      return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
     }
 
-    // Encontra usuário existente pela wallet
     const existingWallet = await prisma.wallet.findUnique({
       where: {
         address_chain: {
