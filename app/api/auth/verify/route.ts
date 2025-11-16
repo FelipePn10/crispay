@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyEvmSignature } from "@/lib/ethers";
+import { verifyEvmSignatureWithTracking } from "@/lib/ethers";
 import { verifyTronSignature } from "@/lib/tron";
 import { signToken } from "@/lib/jwt";
 import { redis } from "@/lib/redis";
@@ -34,9 +34,17 @@ export async function POST(request: NextRequest) {
 
     if (chain === "evm") {
       try {
-        const recoveredAddress = verifyEvmSignature(message, signature);
-        verified = recoveredAddress.toLowerCase() === address.toLowerCase();
-        normalizedAddress = recoveredAddress.toLowerCase();
+        verified = await verifyEvmSignatureWithTracking(
+          message,
+          signature,
+          address,
+        );
+        if (verified) {
+          normalizedAddress = address.toLowerCase();
+          console.log(`EVM signature verified for: ${address}`);
+        } else {
+          console.log(`EVM signature verification failed for: ${address}`);
+        }
       } catch (error) {
         console.error("EVM signature verification failed:", error);
         verified = false;
